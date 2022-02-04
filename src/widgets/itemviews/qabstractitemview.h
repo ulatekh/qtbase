@@ -240,6 +240,7 @@ public Q_SLOTS:
     void scrollToTop();
     void scrollToBottom();
     void update(const QModelIndex &index);
+    void update(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 protected Q_SLOTS:
     virtual void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());

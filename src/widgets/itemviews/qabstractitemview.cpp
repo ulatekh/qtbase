@@ -3301,10 +3301,14 @@ void QAbstractItemView::scrollToBottom()
 */
 void QAbstractItemView::update(const QModelIndex &index)
 {
+    update(index, index);
+}
+void QAbstractItemView::update(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
     Q_D(QAbstractItemView);
-    if (index.isValid()) {
-        const QRect rect = visualRect(index);
-        //this test is important for peformance reason
+    if (topLeft.isValid() && bottomRight.isValid()) {
+        const QRect rect = visualRect(topLeft).united(visualRect(bottomRight));
+        //this test is important for performance reason
         //For example in dataChanged we simply update all the cells without checking
         //it can be a major bottleneck to update rects that aren't even part of the viewport
         if (d->viewport->rect().intersects(rect))
@@ -3343,7 +3347,7 @@ void QAbstractItemView::dataChanged(const QModelIndex &topLeft, const QModelInde
     } else {
         d->updateEditorData(topLeft, bottomRight);
         if (isVisible() && !d->delayedPendingLayout)
-            d->viewport->update();
+            update(topLeft, bottomRight);
     }
 
 #ifndef QT_NO_ACCESSIBILITY
