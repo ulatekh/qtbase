@@ -4540,6 +4540,13 @@ bool QAbstractItemView::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
+void qRegisterAbstractItemView()
+{
+    // For dataChanged() signal
+    qRegisterMetaType<QVector<int> >();
+}
+Q_CONSTRUCTOR_FUNCTION(qRegisterAbstractItemView)
+
 QT_END_NAMESPACE
 
 #include "moc_qabstractitemview.cpp"
